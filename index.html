@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Cohort Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Pre-cohort setup</p>
+  <h1 class="page-title">Get your machine ready before day one</h1>
+  <p class="page-sub">Pick a guide below. Each one asks a few questions about your setup and walks you through only the steps that apply to you.</p>
+
+  <div class="guide-grid" id="guide-grid">
+    <a class="guide-card" href="guides/linux-setup/" data-guide-id="linux-setup">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3"/><line x1="12" y1="15" x2="16" y2="15"/></svg>
+      <div class="guide-info">
+        <p class="guide-title">Get Linux running on your own machine</p>
+        <p class="guide-desc">Install WSL2 (Windows) or a Linux VM (Mac), tailored to your OS and chip.</p>
+        <p class="guide-meta"><span>~1–2 hours</span><span class="status"></span></p>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <footer class="page-footer">More guides get added here as the cohort needs them. Stuck at any point? Post a screenshot in the class group.</footer>
+</div>
+
+<script>
+document.querySelectorAll('#guide-grid [data-guide-id]').forEach(card => {
+  const id = card.getAttribute('data-guide-id');
+  try {
+    if(localStorage.getItem('guide-completed-' + id) === '1'){
+      card.querySelector('.status').textContent = '✓ completed';
+      card.querySelector('.status').classList.add('done');
+    }
+  } catch(e){}
+});
+</script>
+</body>
+</html>
