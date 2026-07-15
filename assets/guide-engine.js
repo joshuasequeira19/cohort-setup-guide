@@ -1,10 +1,9 @@
 /* Shared engine for interactive step-guide pages.
-   Each guide page defines `GUIDE_ID` and `steps` before loading this file. */
+   Load this file FIRST (it only declares functions, nothing runs yet).
+   Then define `GUIDE_ID` and `steps` in an inline script, and call
+   initGuide() at the end of that same script. */
 
-const STORAGE_KEY = 'guide-progress-' + GUIDE_ID;
-const COMPLETE_KEY = 'guide-completed-' + GUIDE_ID;
-let state = { history: ['start'] };
-let showResumeBanner = false;
+let STORAGE_KEY, COMPLETE_KEY, state, showResumeBanner = false;
 
 function cmd(label, code){
   const escaped = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -61,7 +60,12 @@ function saveState(){
   }
 }
 
-state = loadState();
+function initGuide(){
+  STORAGE_KEY = 'guide-progress-' + GUIDE_ID;
+  COMPLETE_KEY = 'guide-completed-' + GUIDE_ID;
+  state = loadState();
+  render();
+}
 
 function buildSummary(){
   const lines = [];
@@ -170,5 +174,3 @@ function restart(){
   saveState();
   render();
 }
-
-render();
