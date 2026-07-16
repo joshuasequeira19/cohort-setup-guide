@@ -241,7 +241,8 @@ export const linuxSetupSteps: StepMap = {
           In VirtualBox, click <b>New</b>, name the VM, set Type to <b>Linux</b>, Version to <b>Ubuntu (64-bit)</b>
         </li>
         <li>
-          Allocate at least <b>4GB memory</b> and <b>25GB disk space</b>
+          Allocate at least <b>4096 MB memory</b> (VirtualBox asks for this in MB, that's 4GB), <b>2 vCPUs</b>, and{' '}
+          <b>25GB disk space</b>
         </li>
         <li>In the VM's Storage settings, attach the Ubuntu ISO to the virtual optical drive</li>
         <li>Start the VM and follow the Ubuntu installer prompts, this is where you create your Linux username and password, write these down</li>
@@ -278,7 +279,7 @@ export const linuxSetupSteps: StepMap = {
           </li>
           <li>
             Create the VM the same way, selecting the ARM-compatible Linux type if prompted, at least{' '}
-            <b>4GB memory</b> and <b>25GB disk space</b>
+            <b>4096 MB memory</b>, <b>2 vCPUs</b>, and <b>25GB disk space</b>
           </li>
           <li>Start the VM and follow the Ubuntu installer prompts, note your username and password</li>
         </ol>
