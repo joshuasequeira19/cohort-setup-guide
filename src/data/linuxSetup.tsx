@@ -219,6 +219,7 @@ export const linuxSetupSteps: StepMap = {
     crumb: null,
     title: 'Install VirtualBox and Ubuntu Server',
     body: (
+      <>
       <ol>
         <li>
           Go to <LinkChip url="www.virtualbox.org/wiki/Downloads" /> and download the package under{' '}
@@ -245,9 +246,29 @@ export const linuxSetupSteps: StepMap = {
           Allocate at least <b>4096 MB memory</b> (VirtualBox asks for this in MB, that's 4GB), <b>2 vCPUs</b>, and{' '}
           <b>25GB disk space</b>
         </li>
-        <li>In the VM's Storage settings, attach the Ubuntu ISO to the virtual optical drive</li>
+        <li>
+          Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under{' '}
+          <b>Controller: IDE</b>, choose <b>Choose a disk file...</b>, and select the Ubuntu ISO you downloaded
+        </li>
         <li>Start the VM and follow the Ubuntu installer prompts, this is where you create your Linux username and password, write these down</li>
       </ol>
+      <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
+        <p>
+          This means the VM has nothing to boot from, almost always because the ISO didn't actually get attached.
+        </p>
+        <ol>
+          <li>Shut down the VM if it's stuck (right-click it in the list → Close → Power Off)</li>
+          <li>
+            Open <b>Settings → Storage</b> for that VM
+          </li>
+          <li>
+            Under <b>Controller: IDE</b>, click the optical disk icon, then <b>Choose a disk file...</b>
+          </li>
+          <li>Confirm you're selecting the Ubuntu ISO itself, not the folder it's in, then click OK</li>
+          <li>Start the VM again</li>
+        </ol>
+      </StepDisclosure>
+      </>
     ),
     next: 'verify',
     nextLabel: 'Ubuntu installer finished →',
@@ -282,8 +303,29 @@ export const linuxSetupSteps: StepMap = {
             Create the VM the same way, selecting the ARM-compatible Linux type if prompted, at least{' '}
             <b>4096 MB memory</b>, <b>2 vCPUs</b>, and <b>25GB disk space</b>
           </li>
+          <li>
+            Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under{' '}
+            <b>Controller: IDE</b>, choose <b>Choose a disk file...</b>, and select the ARM64 Ubuntu ISO you
+            downloaded
+          </li>
           <li>Start the VM and follow the Ubuntu installer prompts, note your username and password</li>
         </ol>
+        <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
+          <p>
+            This means the VM has nothing to boot from, almost always because the ISO didn't actually get attached.
+          </p>
+          <ol>
+            <li>Shut down the VM if it's stuck (right-click it in the list → Close → Power Off)</li>
+            <li>
+              Open <b>Settings → Storage</b> for that VM
+            </li>
+            <li>
+              Under <b>Controller: IDE</b>, click the optical disk icon, then <b>Choose a disk file...</b>
+            </li>
+            <li>Confirm you're selecting the Ubuntu ISO itself, not the folder it's in, then click OK</li>
+            <li>Start the VM again</li>
+          </ol>
+        </StepDisclosure>
         <StepDisclosure summary="VirtualBox isn't behaving well on my machine">
           <p>This is still a newer path for Apple Silicon. Switch to UTM instead:</p>
           <ol>
