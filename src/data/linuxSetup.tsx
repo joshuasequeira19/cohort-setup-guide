@@ -255,11 +255,6 @@ export const linuxSetupSteps: StepMap = {
           <b>unchecked</b>, it can cause the VM to fail to boot from the installer
         </li>
         <li>
-          Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under the storage
-          controller listed there (may be called <b>IDE</b>, <b>SATA</b>, or <b>VirtioSCSI</b> depending on your
-          VirtualBox version), choose <b>Choose a disk file...</b>, and select the Ubuntu ISO you downloaded
-        </li>
-        <li>
           Start the VM and follow the Ubuntu installer prompts. When it asks you to create a username and password,
           use <b>vboxuser</b> for both, we're standardizing on that across the whole cohort so instructions and
           troubleshooting are identical for everyone. This VM isn't reachable from the internet, so it's not a real
@@ -327,11 +322,6 @@ export const linuxSetupSteps: StepMap = {
             <b>4096 MB memory</b>, <b>2 vCPUs</b>, and <b>25GB disk space</b>. If the wizard shows a{' '}
             <b>Use EFI</b> checkbox, leave it <b>unchecked</b>, it can cause the VM to fail to boot from the
             installer
-          </li>
-          <li>
-            Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under the storage
-            controller listed there (may be called <b>IDE</b>, <b>SATA</b>, or <b>VirtioSCSI</b> depending on your
-            VirtualBox version), choose <b>Choose a disk file...</b>, and select the ARM64 Ubuntu ISO you downloaded
           </li>
           <li>
             Start the VM and follow the Ubuntu installer prompts. When it asks you to create a username and
