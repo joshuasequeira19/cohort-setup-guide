@@ -135,8 +135,10 @@ export const linuxSetupSteps: StepMap = {
         </p>
         <CommandBlock label="PowerShell (Admin)" code="wsl --install" />
         <p>
-          Restart when prompted. Ubuntu should open automatically after and ask you to create a username and password,
-          this is separate from your Windows login. Write these down, you'll need them every time.
+          Restart when prompted. Ubuntu should open automatically after and ask you to create a username and
+          password, this is separate from your Windows login. Use <b>vboxuser</b> for both, we're standardizing on
+          that across the whole cohort (Mac students use the same) so instructions and troubleshooting are
+          identical for everyone.
         </p>
         <StepDisclosure summary="It's hanging at 0% and not progressing">
           <p>Cancel and run this instead:</p>
@@ -258,11 +260,11 @@ export const linuxSetupSteps: StepMap = {
           VirtualBox version), choose <b>Choose a disk file...</b>, and select the Ubuntu ISO you downloaded
         </li>
         <li>
-          While you're in Settings, go to <b>General → Features</b> and set <b>Shared Clipboard</b> to{' '}
-          <b>Bidirectional</b>. This lets you copy and paste between your Mac and the VM's console instead of
-          retyping everything by hand
+          Start the VM and follow the Ubuntu installer prompts. When it asks you to create a username and password,
+          use <b>vboxuser</b> for both, we're standardizing on that across the whole cohort so instructions and
+          troubleshooting are identical for everyone. This VM isn't reachable from the internet, so it's not a real
+          security concern here
         </li>
-        <li>Start the VM and follow the Ubuntu installer prompts, this is where you create your Linux username and password, write these down</li>
       </ol>
       <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
         <p>Work through these in order, they cover the common causes:</p>
@@ -290,7 +292,7 @@ export const linuxSetupSteps: StepMap = {
       </StepDisclosure>
       </>
     ),
-    next: 'verify',
+    next: 'mac_ssh',
     nextLabel: 'Ubuntu installer finished →',
   },
 
@@ -332,11 +334,11 @@ export const linuxSetupSteps: StepMap = {
             VirtualBox version), choose <b>Choose a disk file...</b>, and select the ARM64 Ubuntu ISO you downloaded
           </li>
           <li>
-            While you're in Settings, go to <b>General → Features</b> and set <b>Shared Clipboard</b> to{' '}
-            <b>Bidirectional</b>. This lets you copy and paste between your Mac and the VM's console instead of
-            retyping everything by hand
+            Start the VM and follow the Ubuntu installer prompts. When it asks you to create a username and
+            password, use <b>vboxuser</b> for both, we're standardizing on that across the whole cohort so
+            instructions and troubleshooting are identical for everyone. This VM isn't reachable from the internet,
+            so it's not a real security concern here
           </li>
-          <li>Start the VM and follow the Ubuntu installer prompts, note your username and password</li>
         </ol>
         <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
           <p>Work through these in order, they cover the common causes:</p>
@@ -376,8 +378,65 @@ export const linuxSetupSteps: StepMap = {
         </StepDisclosure>
       </>
     ),
-    next: 'verify',
+    next: 'mac_ssh',
     nextLabel: 'Ubuntu installer finished →',
+  },
+
+  mac_ssh: {
+    tag: 'Mac · Final step',
+    crumb: 'ssh setup',
+    title: "Set up SSH so you can use your Mac's own Terminal",
+    body: (
+      <>
+        <p>
+          Right now you can only reach the VM through its own console window. Setting up SSH means you can use your
+          Mac's normal Terminal instead, with real copy-paste and scrollback.
+        </p>
+        <p>
+          Once Ubuntu finishes installing and reboots to a login prompt, log in with <b>vboxuser</b> /{' '}
+          <b>vboxuser</b> right there in the VM's window, then run:
+        </p>
+        <CommandBlock label="bash (inside the VM)" code="sudo apt update && sudo apt install openssh-server -y" />
+        <p>Ubuntu Server doesn't install SSH by default, this is what lets your Mac connect in later.</p>
+        <p>
+          Now power the VM off completely, either run <InlineCode>sudo poweroff</InlineCode> inside it, or from
+          VirtualBox right-click the VM → <b>Close</b> → <b>Power Off</b>. VirtualBox won't let you change network
+          settings while it's running.
+        </p>
+        <ol>
+          <li>
+            Go to <b>Settings → Network → Advanced → Port Forwarding</b>
+          </li>
+          <li>
+            Click the green <b>+</b> icon in that window to add a new rule
+          </li>
+          <li>
+            Fill it out exactly like this: Name <InlineCode>SSH</InlineCode>, Protocol <InlineCode>TCP</InlineCode>,
+            Host IP <InlineCode>127.0.0.1</InlineCode>, Host Port <InlineCode>2222</InlineCode>, Guest IP left{' '}
+            <b>completely blank</b>, Guest Port <InlineCode>22</InlineCode>
+          </li>
+          <li>Click OK, then OK again on the Network settings window</li>
+        </ol>
+        <StepDisclosure summary="The fields or the + button are greyed out">
+          <p>
+            VirtualBox only allows network changes while the VM is fully powered off, not just paused or reset.
+            Close this window, shut the VM down completely, then come back to Settings → Network.
+          </p>
+        </StepDisclosure>
+        <p>Start the VM back up (you can leave its window minimized from here on), then from your Mac's own Terminal app run:</p>
+        <CommandBlock label="bash (Mac Terminal)" code="ssh vboxuser@127.0.0.1 -p 2222" />
+        <p>
+          Type <InlineCode>yes</InlineCode> if it asks about the host's fingerprint the first time, then enter{' '}
+          <b>vboxuser</b> as the password.
+        </p>
+        <Callout variant="good">
+          That's your VM now, a normal terminal tab with real copy-paste. Use this from now on instead of clicking
+          into the VM's own window.
+        </Callout>
+      </>
+    ),
+    next: 'verify',
+    nextLabel: "I'm connected over SSH →",
   },
 
   verify: {
@@ -387,8 +446,9 @@ export const linuxSetupSteps: StepMap = {
     body: (
       <>
         <p>
-          Open a terminal, either your WSL window on Windows, the terminal inside your Ubuntu VM on Mac, or your
-          regular terminal if you're already on Linux, and run:
+          Open a terminal, either your WSL window on Windows, your Mac's Terminal app connected over SSH (
+          <InlineCode>ssh vboxuser@127.0.0.1 -p 2222</InlineCode>), or your regular terminal if you're already on
+          Linux, and run:
         </p>
         <CommandBlock label="bash" code={'whoami\npwd\nlsb_release -a'} />
         <p>You should see your username, current folder, and Ubuntu version print out with no errors.</p>
