@@ -221,7 +221,7 @@ export const linuxSetupSteps: StepMap = {
     body: (
       <ol>
         <li>
-          Go to <LinkChip url="virtualbox.org/wiki/Downloads" /> and download the package under{' '}
+          Go to <LinkChip url="www.virtualbox.org/wiki/Downloads" /> and download the package under{' '}
           <b>macOS / Intel hosts</b>
         </li>
         <li>Open the file and run the installer</li>
@@ -230,6 +230,10 @@ export const linuxSetupSteps: StepMap = {
           down, click <b>Allow</b> next to the message about Oracle software
         </li>
         <li>Restart if prompted</li>
+        <li>
+          Open VirtualBox for the first time. If it asks you to choose an <b>Experience Mode</b>, pick{' '}
+          <b>Basic Mode</b>, it hides advanced options you won't need for this
+        </li>
         <li>
           Go to <LinkChip url="ubuntu.com/download/desktop" /> and download the standard Ubuntu Desktop ISO
         </li>
@@ -255,7 +259,7 @@ export const linuxSetupSteps: StepMap = {
       <>
         <ol>
           <li>
-            Go to <LinkChip url="virtualbox.org/wiki/Downloads" /> and download the package under{' '}
+            Go to <LinkChip url="www.virtualbox.org/wiki/Downloads" /> and download the package under{' '}
             <b>macOS / Arm64 hosts</b>. This matters, the Intel package won't work on your machine
           </li>
           <li>
@@ -263,6 +267,10 @@ export const linuxSetupSteps: StepMap = {
           </li>
           <li>
             Same permission steps as Intel: <b>System Settings → Privacy &amp; Security → Allow</b>
+          </li>
+          <li>
+            Open VirtualBox for the first time. If it asks you to choose an <b>Experience Mode</b>, pick{' '}
+            <b>Basic Mode</b>, it hides advanced options you won't need for this
           </li>
           <li>
             Go to <LinkChip url="ubuntu.com/download/server" /> (or search "Ubuntu ARM64 ISO") and download an{' '}
