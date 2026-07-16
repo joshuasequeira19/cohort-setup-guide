@@ -257,6 +257,11 @@ export const linuxSetupSteps: StepMap = {
           controller listed there (may be called <b>IDE</b>, <b>SATA</b>, or <b>VirtioSCSI</b> depending on your
           VirtualBox version), choose <b>Choose a disk file...</b>, and select the Ubuntu ISO you downloaded
         </li>
+        <li>
+          While you're in Settings, go to <b>General → Features</b> and set <b>Shared Clipboard</b> to{' '}
+          <b>Bidirectional</b>. This lets you copy and paste between your Mac and the VM's console instead of
+          retyping everything by hand
+        </li>
         <li>Start the VM and follow the Ubuntu installer prompts, this is where you create your Linux username and password, write these down</li>
       </ol>
       <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
@@ -325,6 +330,11 @@ export const linuxSetupSteps: StepMap = {
             Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under the storage
             controller listed there (may be called <b>IDE</b>, <b>SATA</b>, or <b>VirtioSCSI</b> depending on your
             VirtualBox version), choose <b>Choose a disk file...</b>, and select the ARM64 Ubuntu ISO you downloaded
+          </li>
+          <li>
+            While you're in Settings, go to <b>General → Features</b> and set <b>Shared Clipboard</b> to{' '}
+            <b>Bidirectional</b>. This lets you copy and paste between your Mac and the VM's console instead of
+            retyping everything by hand
           </li>
           <li>Start the VM and follow the Ubuntu installer prompts, note your username and password</li>
         </ol>
