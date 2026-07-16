@@ -217,7 +217,7 @@ export const linuxSetupSteps: StepMap = {
   mac_intel: {
     tag: 'Intel Mac · Install',
     crumb: null,
-    title: 'Install VirtualBox and Ubuntu Desktop',
+    title: 'Install VirtualBox and Ubuntu Server',
     body: (
       <ol>
         <li>
@@ -235,7 +235,8 @@ export const linuxSetupSteps: StepMap = {
           <b>Basic Mode</b>, it hides advanced options you won't need for this
         </li>
         <li>
-          Go to <LinkChip url="ubuntu.com/download/desktop" /> and download the standard Ubuntu Desktop ISO
+          Go to <LinkChip url="ubuntu.com/download/server" /> and download the standard Ubuntu Server ISO. We only
+          need a terminal, not a graphical desktop, so this is the lighter option
         </li>
         <li>
           In VirtualBox, click <b>New</b>, name the VM, set Type to <b>Linux</b>, Version to <b>Ubuntu (64-bit)</b>
