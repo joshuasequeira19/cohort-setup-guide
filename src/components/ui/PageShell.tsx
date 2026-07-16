@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { TextEffect } from '@/components/motion-primitives/text-effect'
-import { GlowBackdrop } from '@/components/ui/GlowBackdrop'
+import { GridBackdrop } from '@/components/ui/GridBackdrop'
 
 export function PageShell({
   eyebrow,
@@ -17,7 +17,7 @@ export function PageShell({
 }) {
   return (
     <div className="relative min-h-screen">
-      <GlowBackdrop />
+      <GridBackdrop />
       <div className="mx-auto max-w-[760px] px-6 pb-24 pt-12 sm:pt-16">
         <div className="mb-2 font-mono text-[12.5px] uppercase tracking-wider text-primary">{eyebrow}</div>
         <TextEffect

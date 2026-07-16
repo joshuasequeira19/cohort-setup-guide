@@ -2,7 +2,6 @@ import { PageShell } from '@/components/ui/PageShell'
 import { GuideCard } from '@/components/ui/GuideCard'
 import { HowItWorks } from '@/components/ui/HowItWorks'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
-import { IconLinux, IconMac, IconWindows } from '@/components/guide/primitives'
 
 export default function Home() {
   return (
@@ -16,15 +15,11 @@ export default function Home() {
         <GuideCard
           to="/guides/linux-setup"
           guideId="linux-setup"
-          icon={<IconLinux />}
+          path="guides/linux-setup.md"
           title="Get Linux running on your own machine"
           description="Install WSL2 (Windows) or a Linux VM (Mac), tailored to your OS and chip."
           meta="~1–2 hours"
-          paths={[
-            { label: 'Windows', icon: <IconWindows /> },
-            { label: 'Mac', icon: <IconMac /> },
-            { label: 'Linux', icon: <IconLinux /> },
-          ]}
+          supports={['windows', 'mac', 'linux']}
         />
       </AnimatedGroup>
 

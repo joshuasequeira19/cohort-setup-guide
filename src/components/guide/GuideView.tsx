@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Check, ClipboardList, RotateCcw } from 'lucide-r
 import { useGuideEngine } from '@/hooks/useGuideEngine'
 import { Trail } from '@/components/guide/Trail'
 import { StepBody } from '@/components/guide/primitives'
-import { BorderTrail } from '@/components/motion-primitives/border-trail'
+import { TerminalPanel } from '@/components/ui/TerminalPanel'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 import type { StepMap } from '@/types/guide'
@@ -40,13 +40,10 @@ export function GuideView({ guideId, steps }: { guideId: string; steps: StepMap 
         )}
       </AnimatePresence>
 
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface p-7">
-        <BorderTrail
-          size={90}
-          className="bg-gradient-to-l from-primary via-secondary to-transparent opacity-70"
-          transition={{ repeat: Infinity, duration: 9, ease: 'linear' }}
-        />
-
+      <TerminalPanel
+        path={`guides/${guideId}/${currentStepId}.sh`}
+        headerRight={<span className="font-mono text-xs text-text-faint">step {history.length}</span>}
+      >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentStepId}
@@ -75,7 +72,7 @@ export function GuideView({ guideId, steps }: { guideId: string; steps: StepMap 
                   <button
                     key={opt.to}
                     onClick={() => goTo(opt.to)}
-                    className="group flex w-full items-center gap-3 rounded-xl border border-border bg-surface-2 px-4 py-3.5 text-left text-[15px] font-medium text-text transition-all hover:-translate-y-px hover:border-primary-dim hover:bg-[#232b36]"
+                    className="group flex w-full items-center gap-3 rounded-lg border border-border bg-surface-2 px-4 py-3.5 text-left text-[15px] font-medium text-text transition-all hover:-translate-y-px hover:border-primary-dim hover:bg-[#232b36]"
                   >
                     {opt.icon && <span className="shrink-0 text-primary [&>svg]:h-[22px] [&>svg]:w-[22px]">{opt.icon}</span>}
                     <span className="flex-1">{opt.label}</span>
@@ -89,7 +86,7 @@ export function GuideView({ guideId, steps }: { guideId: string; steps: StepMap 
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => goTo(currentStep.next!)}
-                  className="rounded-xl bg-primary px-5 py-2.5 text-[14.5px] font-semibold text-[#1a1206] transition-colors hover:bg-[#f2b357]"
+                  className="rounded-lg bg-primary px-5 py-2.5 text-[14.5px] font-semibold text-[#1a1206] transition-colors hover:bg-[#f2b357]"
                 >
                   {currentStep.nextLabel}
                 </button>
@@ -100,14 +97,14 @@ export function GuideView({ guideId, steps }: { guideId: string; steps: StepMap 
               <div className="mt-6 flex flex-wrap items-center justify-between gap-2.5">
                 <button
                   onClick={restart}
-                  className="flex items-center gap-1.5 rounded-xl border border-border-strong bg-surface-2 px-4 py-2.5 text-[14.5px] font-medium text-text transition-colors hover:border-primary-dim"
+                  className="flex items-center gap-1.5 rounded-lg border border-border-strong bg-surface-2 px-4 py-2.5 text-[14.5px] font-medium text-text transition-colors hover:border-primary-dim"
                 >
                   <RotateCcw className="h-3.5 w-3.5" /> Start over
                 </button>
                 <button
                   onClick={onCopySummary}
                   className={cn(
-                    'flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[14.5px] font-medium transition-colors',
+                    'flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[14.5px] font-medium transition-colors',
                     copied ? 'text-good' : 'text-text-dim hover:text-text',
                   )}
                 >
@@ -118,7 +115,7 @@ export function GuideView({ guideId, steps }: { guideId: string; steps: StepMap 
             )}
           </motion.div>
         </AnimatePresence>
-      </div>
+      </TerminalPanel>
     </>
   )
 }
