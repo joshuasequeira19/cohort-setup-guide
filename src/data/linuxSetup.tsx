@@ -206,6 +206,11 @@ export const linuxSetupSteps: StepMap = {
           <br />
           If it says <b>Intel Core i5, i7, i9</b> or similar → that's an Intel Mac.
         </p>
+        <Callout variant="warn">
+          Take an extra second to get this right. Downloading the wrong VirtualBox build or the wrong Ubuntu ISO
+          architecture for your chip won't just fail cleanly, it causes confusing, hard-to-diagnose boot errors
+          later on that look unrelated to this choice.
+        </Callout>
       </>
     ),
     options: [
@@ -244,28 +249,38 @@ export const linuxSetupSteps: StepMap = {
         </li>
         <li>
           Allocate at least <b>4096 MB memory</b> (VirtualBox asks for this in MB, that's 4GB), <b>2 vCPUs</b>, and{' '}
-          <b>25GB disk space</b>
+          <b>25GB disk space</b>. If the wizard shows a <b>Use EFI</b> checkbox, leave it{' '}
+          <b>unchecked</b>, it can cause the VM to fail to boot from the installer
         </li>
         <li>
-          Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under{' '}
-          <b>Controller: IDE</b>, choose <b>Choose a disk file...</b>, and select the Ubuntu ISO you downloaded
+          Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under the storage
+          controller listed there (may be called <b>IDE</b>, <b>SATA</b>, or <b>VirtioSCSI</b> depending on your
+          VirtualBox version), choose <b>Choose a disk file...</b>, and select the Ubuntu ISO you downloaded
         </li>
         <li>Start the VM and follow the Ubuntu installer prompts, this is where you create your Linux username and password, write these down</li>
       </ol>
       <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
-        <p>
-          This means the VM has nothing to boot from, almost always because the ISO didn't actually get attached.
-        </p>
+        <p>Work through these in order, they cover the common causes:</p>
         <ol>
-          <li>Shut down the VM if it's stuck (right-click it in the list → Close → Power Off)</li>
           <li>
-            Open <b>Settings → Storage</b> for that VM
+            Open <b>Settings → Storage</b> and confirm the Ubuntu ISO is actually attached to an optical drive, not
+            just sitting unattached in the list
           </li>
           <li>
-            Under <b>Controller: IDE</b>, click the optical disk icon, then <b>Choose a disk file...</b>
+            If it's attached, click it and check the <b>Live CD/DVD</b> box in the panel on the right if there is
+            one
           </li>
-          <li>Confirm you're selecting the Ubuntu ISO itself, not the folder it's in, then click OK</li>
-          <li>Start the VM again</li>
+          <li>
+            Go to <b>Settings → System → Motherboard</b> and confirm <b>Optical</b> is checked in Boot Device
+            Order, and try unchecking <b>EFI</b> there too, some VirtualBox versions can't boot a CD over certain
+            controllers with EFI on
+          </li>
+          <li>
+            Double check the ISO architecture matches your Mac's chip (Intel → x86-64/amd64 ISO, Apple Silicon →
+            ARM64 ISO). A mismatch here fails with this exact error and nothing above will fix it
+          </li>
+          <li>Fully power off the VM (not just reset) after changing any setting, then start it again</li>
+          <li>Still stuck? Delete the VM and recreate it, unchecking EFI during creation this time</li>
         </ol>
       </StepDisclosure>
       </>
@@ -296,34 +311,45 @@ export const linuxSetupSteps: StepMap = {
             <b>Basic Mode</b>, it hides advanced options you won't need for this
           </li>
           <li>
-            Go to <LinkChip url="ubuntu.com/download/server" /> (or search "Ubuntu ARM64 ISO") and download an{' '}
-            <b>ARM64</b> Ubuntu image, the standard x86-64 ISO won't run here at all
+            Go to <LinkChip url="ubuntu.com/download/server/arm" /> and download the standard <b>26.04 LTS</b> ISO
+            (not the "64k page size" one). Ubuntu buries this page behind a link on the main download page, so this
+            goes straight there. Do not use the x86-64 ISO from the regular download page, it won't run here at all
           </li>
           <li>
             Create the VM the same way, selecting the ARM-compatible Linux type if prompted, at least{' '}
-            <b>4096 MB memory</b>, <b>2 vCPUs</b>, and <b>25GB disk space</b>
+            <b>4096 MB memory</b>, <b>2 vCPUs</b>, and <b>25GB disk space</b>. If the wizard shows a{' '}
+            <b>Use EFI</b> checkbox, leave it <b>unchecked</b>, it can cause the VM to fail to boot from the
+            installer
           </li>
           <li>
-            Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under{' '}
-            <b>Controller: IDE</b>, choose <b>Choose a disk file...</b>, and select the ARM64 Ubuntu ISO you
-            downloaded
+            Before starting the VM, go to <b>Settings → Storage</b>, click the empty disk icon under the storage
+            controller listed there (may be called <b>IDE</b>, <b>SATA</b>, or <b>VirtioSCSI</b> depending on your
+            VirtualBox version), choose <b>Choose a disk file...</b>, and select the ARM64 Ubuntu ISO you downloaded
           </li>
           <li>Start the VM and follow the Ubuntu installer prompts, note your username and password</li>
         </ol>
         <StepDisclosure summary="It boots to a black screen saying &ldquo;No bootable option or device was found&rdquo;">
-          <p>
-            This means the VM has nothing to boot from, almost always because the ISO didn't actually get attached.
-          </p>
+          <p>Work through these in order, they cover the common causes:</p>
           <ol>
-            <li>Shut down the VM if it's stuck (right-click it in the list → Close → Power Off)</li>
             <li>
-              Open <b>Settings → Storage</b> for that VM
+              Open <b>Settings → Storage</b> and confirm the Ubuntu ISO is actually attached to an optical drive,
+              not just sitting unattached in the list
             </li>
             <li>
-              Under <b>Controller: IDE</b>, click the optical disk icon, then <b>Choose a disk file...</b>
+              If it's attached, click it and check the <b>Live CD/DVD</b> box in the panel on the right if there is
+              one
             </li>
-            <li>Confirm you're selecting the Ubuntu ISO itself, not the folder it's in, then click OK</li>
-            <li>Start the VM again</li>
+            <li>
+              Go to <b>Settings → System → Motherboard</b> and confirm <b>Optical</b> is checked in Boot Device
+              Order, and try unchecking <b>EFI</b> there too, some VirtualBox versions can't boot a CD over certain
+              controllers with EFI on
+            </li>
+            <li>
+              Double check the ISO is actually the <b>ARM64</b> build, not x86-64/amd64. A mismatch here fails with
+              this exact error and nothing above will fix it
+            </li>
+            <li>Fully power off the VM (not just reset) after changing any setting, then start it again</li>
+            <li>Still stuck? Delete the VM and recreate it, unchecking EFI during creation this time</li>
           </ol>
         </StepDisclosure>
         <StepDisclosure summary="VirtualBox isn't behaving well on my machine">
